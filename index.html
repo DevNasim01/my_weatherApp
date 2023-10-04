@@ -152,13 +152,15 @@
             if(data.weather[0].main == "Clouds"){
               weather.src = "clouds.png";
             }else if(data.weather[0].main == "Clear"){
-              weather.src = "mist.png";
+              weather.src = "clear.png";
             }else if(data.weather[0].main == "Rain"){
               weather.src = "rain.png";
             }else if(data.weather[0].main == "Snow"){
-              weather.src = "Snow.png";
+              weather.src = "snow.png";
             }else if(data.weather[0].main == "Drizzle"){
-              weather.src = "Drizzle.png";
+              weather.src = "drizzle.png";
+            }else if(data.weather[0].main == "Mist"){
+              weather.src = "mist.png";
             }
 
 document.querySelector(".part2").style.display= "flex";
