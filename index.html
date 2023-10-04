@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather application</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Nunito+Sans:opsz,wght@6..12,200&display=swap");
+  </style>
+  <style>
+    * {
+      margin: 0%;
+      padding: 0%;
+      font-family: "Montserrat", sans-serif;
+      font-family: "Nunito Sans", sans-serif;
+    }
+    .card {
+      width: 50vh;
+      background: linear-gradient(135deg, #00feba, #443b80);
+      border-radius: 20px;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+    .main {
+      height: 100vh;
+      width: 100vh;
+      background-color: #233142;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .scearch input {
+      width: 15rem;
+      border: none;
+      border-radius: 25px;
+      padding: 1rem;
+      font-weight: bolder;
+      font-size: 1rem;
+    }
+    .scearch i{
+        font-size: 1.7rem;
+        font-weight: bolder;
+        padding-left: 0.7rem;
+    }
+    .part2{
+        margin-top: 2rem;
+        height: 40%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .part3{
+        display: grid;
+        grid-template-columns: 1fr, 1fr;
+        justify-items: center;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size:large;
+        font-weight: bolder;
+        color: aliceblue;
+    }
+    .last{
+        width: 100%;
+        display: flex;
+        justify-content:space-evenly;
+        flex-wrap: wrap;
+        margin-top: 1.8rem;
+        
+    }
+    .last img{
+        width: 15%;
+    }
+    .text1{
+        margin-right: 2rem;
+    }
+    .text{
+        color: aliceblue;
+        font-weight: bolder;
+    }
+    .part2{
+      display: none;
+    }
+    .part3{
+      display: none;
+    }
+    .last{
+      display: none;
+    }
+    
+    
+    
+    
+  </style>
+  <body>
+    <div class="main">
+      <div class="card">
+
+        <div class="scearch">
+          <input type="text" class="input" placeholder="Enter the city name" />
+          <i class="fa-solid fa-magnifying-glass" style="color: #1f3951"></i>
+
+          <div class="part2">
+                <img src="rain.png" alt="">
+          </div>
+          <div class="part3">
+            <h1 class="temp">22°C</h1>
+            <h2><div class="city">india</h2>
+          </div>
+
+          <div class="last">
+                <img src="humidity.png" alt="">
+                <div class="text1 text">
+                    <h3 class="humidity">55%</h3>
+                    <h3>Humadity</h3>
+                </div>
+                <img src="wind.png" alt="">
+                <div class="text2 text">
+                    <h3 class="wind">2 km/h</h3>
+                    <h3>wind speed</h3>
+                </div>
+                
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    const apiurl = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=`;
+    const apikey = "308e946e8f7159b9bb32aa1e29780d22";
+
+    const scearch = document.querySelector(".input");
+    const scearchBtn = document.querySelector(".scearch i");
+    const weather = document.querySelector(".part2 img");
+
+    async function checkWeather(city) {
+        try {
+            const response = await fetch(apiurl + city + `&appid=${apikey}`);
+            const data = await response.json();
+            
+            document.querySelector(".city").textContent = data.name;
+            document.querySelector(".temp").textContent = Math.round(data.main.temp) + "°C";
+            document.querySelector(".humidity").textContent = data.main.humidity + "%";
+            document.querySelector(".wind").textContent = data.wind.speed + " km/h";
+
+            if(data.weather[0].main == "Clouds"){
+              weather.src = "clouds.png";
+            }else if(data.weather[0].main == "Clear"){
+              weather.src = "mist.png";
+            }else if(data.weather[0].main == "Rain"){
+              weather.src = "rain.png";
+            }else if(data.weather[0].main == "Snow"){
+              weather.src = "Snow.png";
+            }else if(data.weather[0].main == "Drizzle"){
+              weather.src = "Drizzle.png";
+            }
+
+document.querySelector(".part2").style.display= "flex";
+document.querySelector(".part3").style.display= "grid";
+document.querySelector(".last").style.display= "flex";
+
+        } catch (error) {
+            console.error("Error fetching weather data:", error);
+        }
+    }
+
+    scearchBtn.addEventListener("click", () => {
+        const city = scearch.value;
+        checkWeather(city);
+    });
+
+    checkWeather(scearch);
+</script>
+
+
+</html>
